@@ -1,193 +1,509 @@
-.fade{
+/* ===========================================================
+   AssetFlow Animation Library
+   =========================================================== */
 
-animation:fade .8s ease;
+/* ============================
+   Fade In
+============================ */
+
+.fade-in{
+    animation:fadeIn .6s ease forwards;
+}
+
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+    }
+
+    to{
+        opacity:1;
+    }
 
 }
 
-@keyframes fade{
-
-from{
-
-opacity:0;
-
-}
-
-to{
-
-opacity:1;
-
-}
-
-}
+/* ============================
+   Slide Up
+============================ */
 
 .slide-up{
+    animation:slideUp .7s ease forwards;
+}
 
-animation:slide .7s ease;
+@keyframes slideUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
 
 }
 
-@keyframes slide{
+/* ============================
+   Slide Left
+============================ */
 
-from{
+.slide-left{
 
-transform:
-
-translateY(40px);
-
-opacity:0;
+    animation:slideLeft .6s ease forwards;
 
 }
 
-to{
+@keyframes slideLeft{
 
-transform:
+    from{
 
-translateY(0);
+        opacity:0;
 
-opacity:1;
+        transform:translateX(-35px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateX(0);
+
+    }
 
 }
 
+/* ============================
+   Slide Right
+============================ */
+
+.slide-right{
+
+    animation:slideRight .6s ease forwards;
+
 }
+
+@keyframes slideRight{
+
+    from{
+
+        opacity:0;
+
+        transform:translateX(35px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateX(0);
+
+    }
+
+}
+
+/* ============================
+   Scale
+============================ */
 
 .scale{
 
-animation:scale .4s ease;
+    animation:scaleIn .4s ease;
 
 }
 
-@keyframes scale{
+@keyframes scaleIn{
 
-from{
+    from{
 
-transform:scale(.8);
+        transform:scale(.85);
 
-opacity:0;
+        opacity:0;
+
+    }
+
+    to{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
 
 }
 
-to{
-
-transform:scale(1);
-
-opacity:1;
-
-}
-
-}
+/* ============================
+   Floating
+============================ */
 
 .float{
 
-animation:
-
-floating
-
-5s infinite ease-in-out;
+    animation:floating 5s ease-in-out infinite;
 
 }
 
 @keyframes floating{
 
-0%{
+    0%{
 
-transform:
+        transform:translateY(0px);
 
-translateY(0);
+    }
 
-}
+    50%{
 
-50%{
+        transform:translateY(-10px);
 
-transform:
+    }
 
-translateY(-12px);
+    100%{
 
-}
+        transform:translateY(0px);
 
-100%{
-
-transform:
-
-translateY(0);
+    }
 
 }
 
-}
+/* ============================
+   Rotate
+============================ */
 
 .rotate{
 
-animation:
-
-rotate
-
-8s linear infinite;
+    animation:rotate360 10s linear infinite;
 
 }
 
-@keyframes rotate{
+@keyframes rotate360{
 
-100%{
+    from{
 
-transform:
+        transform:rotate(0);
 
-rotate(360deg);
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
 
 }
 
+/* ============================
+   Pulse
+============================ */
+
+.pulse{
+
+    animation:pulse 2s infinite;
+
 }
+
+@keyframes pulse{
+
+    0%{
+
+        transform:scale(1);
+
+    }
+
+    50%{
+
+        transform:scale(1.05);
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+    }
+
+}
+
+/* ============================
+   Bounce
+============================ */
+
+.bounce{
+
+    animation:bounce 1.8s infinite;
+
+}
+
+@keyframes bounce{
+
+    0%,100%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-8px);
+
+    }
+
+}
+
+/* ============================
+   Hover Lift
+============================ */
+
+.hover-lift{
+
+    transition:.3s ease;
+
+}
+
+.hover-lift:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:0 18px 35px rgba(11,116,184,.18);
+
+}
+
+/* ============================
+   Hover Scale
+============================ */
+
+.hover-scale{
+
+    transition:.3s ease;
+
+}
+
+.hover-scale:hover{
+
+    transform:scale(1.04);
+
+}
+
+/* ============================
+   Hover Rotate
+============================ */
+
+.hover-rotate{
+
+    transition:.3s ease;
+
+}
+
+.hover-rotate:hover{
+
+    transform:rotate(8deg);
+
+}
+
+/* ============================
+   Glow
+============================ */
 
 .glow:hover{
 
-box-shadow:
+    box-shadow:
 
-0 0 30px rgba(11,116,184,.4);
-
-}
-
-.pop:hover{
-
-transform:
-
-scale(1.04);
+    0 0 25px rgba(11,116,184,.35);
 
 }
+
+/* ============================
+   Ripple Button
+============================ */
 
 .ripple{
 
-position:relative;
+    position:relative;
 
-overflow:hidden;
+    overflow:hidden;
 
 }
 
 .ripple::after{
 
-content:"";
+    content:"";
 
-position:absolute;
+    position:absolute;
 
-width:0;
+    width:0;
 
-height:0;
+    height:0;
 
-border-radius:50%;
+    border-radius:50%;
 
-background:rgba(255,255,255,.35);
+    background:rgba(255,255,255,.3);
 
-left:50%;
+    left:50%;
 
-top:50%;
+    top:50%;
 
-transform:translate(-50%,-50%);
+    transform:translate(-50%,-50%);
 
-transition:.6s;
+    transition:.6s;
 
 }
 
 .ripple:hover::after{
 
-width:350px;
+    width:350px;
 
-height:350px;
+    height:350px;
+
+}
+
+/* ============================
+   Spinner
+============================ */
+
+.spinner{
+
+    width:45px;
+
+    height:45px;
+
+    border:5px solid #E5E7EB;
+
+    border-top:5px solid var(--primary);
+
+    border-radius:50%;
+
+    animation:spin .8s linear infinite;
+
+}
+
+@keyframes spin{
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+/* ============================
+   Skeleton Loading
+============================ */
+
+.skeleton{
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:#E5E7EB;
+
+}
+
+.skeleton::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:-150px;
+
+    width:150px;
+
+    height:100%;
+
+    background:
+
+    linear-gradient(
+
+        90deg,
+
+        transparent,
+
+        rgba(255,255,255,.7),
+
+        transparent
+
+    );
+
+    animation:skeleton 1.4s infinite;
+
+}
+
+@keyframes skeleton{
+
+    100%{
+
+        left:100%;
+
+    }
+
+}
+
+/* ============================
+   Toast
+============================ */
+
+.toast-show{
+
+    animation:toast .45s ease forwards;
+
+}
+
+@keyframes toast{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(-30px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ============================
+   Page Transition
+============================ */
+
+.page-enter{
+
+    animation:pageEnter .6s ease;
+
+}
+
+@keyframes pageEnter{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
 
 }

@@ -1,170 +1,196 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sidebar</title>
-
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Remix Icons -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
-      rel="stylesheet"/>
-
-    <link rel="stylesheet" href="../css/global.css">
-    <link rel="stylesheet" href="../css/sidebar.css">
+    <link  href=" http://cdn.jsdelivr.net/npm/remixcon@4.3.0/fonts/remixcon.css" rel="stylesheet" >
 </head>
+<aside id="sidebar" class="sidebar slide-left">
 
-<body>
 
-<aside id="sidebar"
-class="sidebar">
+    <!-- =========================
+            Logo
+    ========================== -->
 
-    <div class="logo">
+    <div class="sidebar-header">
 
-        <div class="logo-circle">
+        <div class="logo">
 
-            <i class="ri-building-2-fill"></i>
+            <div class="logo-icon">
+
+                <i class="ri-building-2-fill"></i>
+
+            </div>
+
+            <div class="logo-content">
+
+                <h2>AssetFlow</h2>
+
+                <span>Enterprise Management</span>
+
+            </div>
 
         </div>
 
-        <div>
+        <button
+            id="collapseBtn"
+            class="collapse-btn"
+            title="Collapse Sidebar">
 
-            <h2>AssetFlow</h2>
+            <i class="ri-menu-fold-line"></i>
 
-            <span>Enterprise Suite</span>
-
-        </div>
+        </button>
 
     </div>
 
-    <ul class="menu">
+    <!-- =========================
+            Navigation
+    ========================== -->
 
-        <li>
+    <nav>
 
-            <a href="../pages/dashboard.html">
+        <ul class="menu">
 
-                <i class="ri-dashboard-line"></i>
+            <li>
 
-                Dashboard
+                <a href="dashboard.html">
 
-            </a>
+                    <i class="ri-dashboard-line"></i>
 
-        </li>
+                    <span>Dashboard</span>
 
-        <li>
+                </a>
 
-            <a href="../pages/organization.html">
+            </li>
 
-                <i class="ri-community-line"></i>
+            <li>
 
-                Organization
+                <a href="organization.html">
 
-            </a>
+                    <i class="ri-building-4-line"></i>
 
-        </li>
+                    <span>Organization</span>
 
-        <li>
+                </a>
 
-            <a href="../pages/assets.html">
+            </li>
 
-                <i class="ri-computer-line"></i>
+            <li>
 
-                Assets
+                <a href="assets.html">
 
-            </a>
+                    <i class="ri-computer-line"></i>
 
-        </li>
+                    <span>Assets</span>
 
-        <li>
+                </a>
 
-            <a href="../pages/allocation.html">
+            </li>
 
-                <i class="ri-share-forward-line"></i>
+            <li>
 
-                Allocation
+                <a href="allocation.html">
 
-            </a>
+                    <i class="ri-share-forward-line"></i>
 
-        </li>
+                    <span>Allocation & Transfer</span>
 
-        <li>
+                </a>
 
-            <a href="../pages/booking.html">
+            </li>
 
-                <i class="ri-calendar-check-line"></i>
+            <li>
 
-                Resource Booking
+                <a href="booking.html">
 
-            </a>
+                    <i class="ri-calendar-check-line"></i>
 
-        </li>
+                    <span>Resource Booking</span>
 
-        <li>
+                </a>
 
-            <a href="../pages/maintenance.html">
+            </li>
 
-                <i class="ri-tools-line"></i>
+            <li>
 
-                Maintenance
+                <a href="maintenance.html">
 
-            </a>
+                    <i class="ri-tools-line"></i>
 
-        </li>
+                    <span>Maintenance</span>
 
-        <li>
+                </a>
 
-            <a href="../pages/audit.html">
+            </li>
 
-                <i class="ri-search-eye-line"></i>
+            <li>
 
-                Audit
+                <a href="audit.html">
 
-            </a>
+                    <i class="ri-search-eye-line"></i>
 
-        </li>
+                    <span>Audit</span>
 
-        <li>
+                </a>
 
-            <a href="../pages/reports.html">
+            </li>
 
-                <i class="ri-bar-chart-box-line"></i>
+            <li>
 
-                Reports
+                <a href="reports.html">
 
-            </a>
+                    <i class="ri-bar-chart-box-line"></i>
 
-        </li>
+                    <span>Reports</span>
 
-        <li>
+                </a>
 
-            <a href="../pages/notifications.html">
+            </li>
 
-                <i class="ri-notification-3-line"></i>
+            <li>
 
-                Notifications
+                <a href="notification.html">
 
-            </a>
+                    <i class="ri-notification-3-line"></i>
 
-        </li>
+                    <span>Notifications</span>
 
-    </ul>
+                </a>
 
-    <div class="bottom">
+            </li>
 
-        <button class="logout">
+        </ul>
 
-            <i class="ri-logout-box-r-line"></i>
+    </nav>
 
-            Logout
+    <!-- =========================
+            User
+    ========================== -->
+
+    <div class="sidebar-user">
+
+        <div class="user-avatar">
+
+            JD
+
+        </div>
+
+        <div class="user-info">
+
+            <h4>John Doe</h4>
+
+            <span>Administrator</span>
+
+        </div>
+
+        <button class="logout-btn">
+
+            <i class="ri-logout-box-r-line"> </i>
 
         </button>
 
     </div>
 
 </aside>
+
+<body>
 
 <script src="../js/sidebar.js"></script>
 

@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AssetFlow - Resource Booking</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Hanken+Grotesk:wght@600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+
+        .booking-grid {
+            display: grid;
+            grid-template-columns: 120px repeat(12, 1fr);
+        }
+        
+        .timeline-slot {
+            border-left: 1px solid #e5e7eb;
+            height: 64px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#e0e3e5",
+                        "on-tertiary-fixed-variant": "#6f3800",
+                        "secondary-fixed-dim": "#a4c9ff",
+                        "on-surface": "#181c1e",
+                        "on-secondary-fixed-variant": "#004883",
+                        "background": "#f7fafc",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-surface-variant": "#42474f",
+                        "tertiary-fixed-dim": "#ffb780",
+                        "surface-bright": "#f7fafc",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#d4e3ff",
+                        "primary": "#00355f",
+                        "surface-tint": "#2d6197",
+                        "tertiary-container": "#743b00",
+                        "surface-container-high": "#e5e9eb",
+                        "primary-fixed-dim": "#a0c9ff",
+                        "primary-fixed": "#d2e4ff",
+                        "error": "#ba1a1a",
+                        "inverse-primary": "#a0c9ff",
+                        "secondary": "#0060ac",
+                        "outline-variant": "#c2c7d1",
+                        "on-primary-fixed-variant": "#07497d",
+                        "on-tertiary-container": "#f9a767",
+                        "inverse-surface": "#2d3133",
+                        "on-error": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#0f4c81",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#181c1e",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#ffdcc4",
+                        "tertiary": "#532800",
+                        "on-secondary-fixed": "#001c39",
+                        "on-tertiary-fixed": "#2f1400",
+                        "surface-container-low": "#f1f4f6",
+                        "surface-container": "#ebeef0",
+                        "on-primary-fixed": "#001c37",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#d7dadc",
+                        "on-primary-container": "#8ebdf9",
+                        "inverse-on-surface": "#eef1f3",
+                        "secondary-container": "#68abff",
+                        "on-secondary-container": "#003e73",
+                        "outline": "#727780",
+                        "error-container": "#ffdad6",
+                        "surface": "#f7fafc"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "sidebar-width": "260px",
+                        "container-max": "1440px",
+                        "unit": "4px",
+                        "margin-desktop": "32px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "headline-sm": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "status-pill": ["Inter"],
+                        "label-sm": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "30px", "fontWeight": "700"}],
+                        "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "status-pill": ["12px", {"lineHeight": "12px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background font-body-md text-on-surface">
+<!-- Sidebar Component (Fixed Shell) -->
+<aside class="fixed left-0 top-0 h-full z-40 flex flex-col w-[260px] bg-white dark:bg-surface-container-low border-r border-outline-variant">
+<div class="px-6 py-8">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-10 h-10 bg-primary-container rounded flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">AssetFlow</h1>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest font-medium">Enterprise Management</p>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-3 px-4 rounded font-bold flex items-center justify-center gap-2 mb-8 hover:opacity-90 transition-all">
+<span class="material-symbols-outlined">add</span>
+                Register Asset
+            </button>
+<nav class="space-y-1">
+<!-- Navigation Items mapped from JSON -->
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg mx-2 my-1 px-4 py-2 transition-colors" href="dashboard.html">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg mx-2 my-1 px-4 py-2 transition-colors" href="organization.html">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+<span>Organization Setup</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg mx-2 my-1 px-4 py-2 transition-colors" href="assets.html">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span>Assets</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg mx-2 my-1 px-4 py-2 transition-colors" href="allocation.html">
+<span class="material-symbols-outlined" data-icon="move_up">move_up</span>
+<span>Allocation &amp; Transfer</span>
+</a>
+<!-- ACTIVE ITEM -->
+<a class="flex items-center gap-3 bg-secondary-fixed text-on-secondary-fixed font-semibold rounded-lg mx-2 my-1 px-4 py-2" href="#">
+<span class="material-symbols-outlined" data-icon="event_available">event_available</span>
+<span>Resource Booking</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg mx-2 my-1 px-4 py-2 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="build">build</span>
+<span>Maintenance</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg mx-2 my-1 px-4 py-2 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+<span>Audit</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg mx-2 my-1 px-4 py-2 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span>Reports</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg mx-2 my-1 px-4 py-2 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span>Notifications</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto border-t border-outline-variant p-4 space-y-1">
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-2 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-2 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-3 text-error hover:bg-error-container rounded-lg px-4 py-2 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- Top App Bar Component -->
+<header class="fixed left-[260px] top-0 right-0 h-16 bg-surface dark:bg-surface-container-low border-b border-outline-variant z-30 flex justify-between items-center px-gutter">
+<div class="flex-1 max-w-xl">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-lg pl-10 pr-4 py-2 text-body-md focus:ring-2 focus:ring-primary-container transition-all" placeholder="Search resources, tags, or ID numbers..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant mx-2"></div>
+<div class="flex items-center gap-3 cursor-pointer hover:bg-surface-container-high p-1 pr-3 rounded-full transition-colors">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="A professional headshot of a corporate IT operations manager, middle-aged with short hair, wearing a navy blue blazer, set against a clean, minimalist office background with soft lighting and a modern tech-focused aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyYMlZvGJ-LqBP2qzGjkXH_7HP4nZBXh3Bpw7qWRMYGzz8kxnZPQNX1MPlldlj1T8Kr7Sccxun0-mNVdZ7Va_XZvLkANFGwwSVMqlVB-01gErHYvX7vyRDTYoBnSLfZJKhCi-9lH_mn_Y3azLXzolR-maRk5kU4VJEBiXIyIo2QCyFa0OLzye6-HXsV8hq9A8EB99XQk9pA2So8IF4dAEWZobINdMo77bCokY7o5JZ8EnKkgjvTv-iq9BLvc_MMDiEHabT8f0KESBn"/>
+<span class="font-medium text-body-md hidden lg:block">Alex Rivera</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-[260px] pt-16 min-h-screen">
+<div class="p-gutter max-w-container-max mx-auto">
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<nav class="flex items-center gap-2 text-label-sm font-label-sm text-on-surface-variant mb-2">
+<span>ASSETS</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-bold">RESOURCE BOOKING</span>
+</nav>
+<h2 class="font-display-lg text-display-lg text-on-surface">Resource Scheduler</h2>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 border border-outline-variant rounded bg-white hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">filter_list</span>
+                        Filters
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded font-bold hover:shadow-lg transition-all">
+<span class="material-symbols-outlined">add</span>
+                        New Booking
+                    </button>
+</div>
+</div>
+<!-- Bento Layout Content -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Left Column: Filters & Resource List (Sticky) -->
+<div class="col-span-12 lg:col-span-3 space-y-6">
+<!-- Filter Section -->
+<div class="bg-white border border-outline-variant rounded-xl p-5">
+<h3 class="font-headline-sm text-headline-sm mb-4">Filters</h3>
+<div class="space-y-4">
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-2">RESOURCE TYPE</label>
+<select class="w-full border-outline-variant rounded bg-surface-container-lowest text-body-md py-2 focus:ring-primary focus:border-primary">
+<option>All Types</option>
+<option>Meeting Rooms</option>
+<option>AV Equipment</option>
+<option>Workstations</option>
+<option>Vehicles</option>
+</select>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-2">AVAILABILITY</label>
+<div class="space-y-2">
+<label class="flex items-center gap-3 cursor-pointer">
+<input checked="" class="rounded border-outline text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-body-md">Available Now</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer">
+<input class="rounded border-outline text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-body-md">Reserved</span>
+</label>
+</div>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-2">DATE</label>
+<input class="w-full border-outline-variant rounded bg-surface-container-lowest text-body-md py-2" type="date" value="2023-11-24"/>
+</div>
+</div>
+</div>
+<!-- Fast Selection List -->
+<div class="bg-white border border-outline-variant rounded-xl overflow-hidden">
+<div class="p-5 border-b border-outline-variant bg-surface-container-low">
+<h3 class="font-headline-sm text-headline-sm">Quick Selection</h3>
+</div>
+<div class="divide-y divide-outline-variant max-h-[400px] overflow-y-auto">
+<!-- Room Item -->
+<div class="p-4 hover:bg-surface-container-high transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-1">
+<span class="font-bold text-primary group-hover:underline">Room B2</span>
+<span class="bg-[#ECFDF5] text-[#059669] px-2 py-0.5 rounded-full text-[10px] font-bold">AVAILABLE</span>
+</div>
+<p class="text-body-md text-on-surface-variant">Conf. Center • 12 Seats</p>
+</div>
+<!-- Equipment Item -->
+<div class="p-4 hover:bg-surface-container-high transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-1">
+<span class="font-bold text-primary group-hover:underline">AF-0062 Projector</span>
+<span class="bg-[#ECFDF5] text-[#059669] px-2 py-0.5 rounded-full text-[10px] font-bold">AVAILABLE</span>
+</div>
+<p class="text-body-md text-on-surface-variant">IT Assets • 4K Laser</p>
+</div>
+<!-- Occupied Item -->
+<div class="p-4 hover:bg-surface-container-high transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-1">
+<span class="font-bold text-primary group-hover:underline">Studio 1</span>
+<span class="bg-[#F3F4F6] text-[#4B5563] px-2 py-0.5 rounded-full text-[10px] font-bold">RESERVED</span>
+</div>
+<p class="text-body-md text-on-surface-variant">East Wing • Soundproof</p>
+</div>
+<!-- Room Item -->
+<div class="p-4 hover:bg-surface-container-high transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-1">
+<span class="font-bold text-primary group-hover:underline">Room A1</span>
+<span class="bg-[#ECFDF5] text-[#059669] px-2 py-0.5 rounded-full text-[10px] font-bold">AVAILABLE</span>
+</div>
+<p class="text-body-md text-on-surface-variant">Lobby Level • 4 Seats</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Center Column: Timeline & Scheduler -->
+<div class="col-span-12 lg:col-span-6 space-y-6">
+<!-- Timeline Card -->
+<div class="bg-white border border-outline-variant rounded-xl overflow-hidden flex flex-col h-full min-h-[600px]">
+<div class="p-6 border-b border-outline-variant flex justify-between items-center">
+<h3 class="font-headline-sm text-headline-sm">Today's Timeline</h3>
+<div class="flex items-center gap-2">
+<button class="p-1 hover:bg-surface-container rounded-full"><span class="material-symbols-outlined">chevron_left</span></button>
+<span class="font-bold">Nov 24, 2023</span>
+<button class="p-1 hover:bg-surface-container rounded-full"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+<div class="flex-1 overflow-x-auto relative">
+<!-- Time Header -->
+<div class="booking-grid bg-surface-container-low border-b border-outline-variant sticky top-0 z-10">
+<div class="p-3 font-label-sm text-label-sm text-on-surface-variant">RESOURCE</div>
+<div class="p-3 font-label-sm text-label-sm border-l border-outline-variant text-center">08:00</div>
+<div class="p-3 font-label-sm text-label-sm border-l border-outline-variant text-center">09:00</div>
+<div class="p-3 font-label-sm text-label-sm border-l border-outline-variant text-center">10:00</div>
+<div class="p-3 font-label-sm text-label-sm border-l border-outline-variant text-center">11:00</div>
+<div class="p-3 font-label-sm text-label-sm border-l border-outline-variant text-center">12:00</div>
+<div class="p-3 font-label-sm text-label-sm border-l border-outline-variant text-center">13:00</div>
+<div class="p-3 font-label-sm text-label-sm border-l border-outline-variant text-center">14:00</div>
+<div class="p-3 font-label-sm text-label-sm border-l border-outline-variant text-center">15:00</div>
+<div class="p-3 font-label-sm text-label-sm border-l border-outline-variant text-center">16:00</div>
+<div class="p-3 font-label-sm text-label-sm border-l border-outline-variant text-center">17:00</div>
+<div class="p-3 font-label-sm text-label-sm border-l border-outline-variant text-center">18:00</div>
+<div class="p-3 font-label-sm text-label-sm border-l border-outline-variant text-center">19:00</div>
+</div>
+<!-- Resource Rows -->
+<div class="divide-y divide-outline-variant">
+<!-- Row 1 -->
+<div class="booking-grid group">
+<div class="p-4 font-bold text-body-md border-r border-outline-variant">Room B2</div>
+<div class="col-span-12 relative flex items-center px-0.5">
+<!-- Booking Block -->
+<div class="absolute left-[8.33%] w-[25%] h-10 bg-primary-container/20 border-l-4 border-primary rounded-r p-2 overflow-hidden cursor-pointer hover:bg-primary-container/30 transition-all">
+<p class="text-[10px] font-bold text-primary truncate uppercase">Quarterly Review</p>
+</div>
+<div class="absolute left-[58.33%] w-[16.66%] h-10 bg-secondary-container/20 border-l-4 border-secondary rounded p-2 overflow-hidden cursor-pointer hover:bg-secondary-container/30 transition-all">
+<p class="text-[10px] font-bold text-secondary truncate uppercase">Team Standup</p>
+</div>
+<!-- Vertical Grid Lines -->
+<div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="booking-grid group">
+<div class="p-4 font-bold text-body-md border-r border-outline-variant">AF-0062</div>
+<div class="col-span-12 relative flex items-center px-0.5">
+<div class="absolute left-[25%] w-[41.66%] h-10 bg-tertiary-fixed/40 border-l-4 border-tertiary-container rounded p-2 overflow-hidden cursor-pointer hover:bg-tertiary-fixed/60 transition-all">
+<p class="text-[10px] font-bold text-tertiary-container truncate uppercase">Training Workshop</p>
+</div>
+<div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div>
+</div>
+</div>
+<!-- Row 3 -->
+<div class="booking-grid group">
+<div class="p-4 font-bold text-body-md border-r border-outline-variant">Studio 1</div>
+<div class="col-span-12 relative flex items-center px-0.5">
+<div class="absolute left-[0%] w-[100%] h-10 bg-error-container/20 border-l-4 border-error rounded p-2 overflow-hidden cursor-pointer hover:bg-error-container/30 transition-all">
+<p class="text-[10px] font-bold text-error truncate uppercase">Maintenance: Acoustic Calibration</p>
+</div>
+<div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div>
+</div>
+</div>
+<!-- Row 4 -->
+<div class="booking-grid group">
+<div class="p-4 font-bold text-body-md border-r border-outline-variant">Room A1</div>
+<div class="col-span-12 relative flex items-center px-0.5">
+<div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div>
+</div>
+</div>
+<!-- Empty Rows for visual balance -->
+<div class="booking-grid"><div class="p-4 h-16 border-r border-outline-variant"></div><div class="col-span-12 flex"><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div></div></div>
+<div class="booking-grid"><div class="p-4 h-16 border-r border-outline-variant"></div><div class="col-span-12 flex"><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div><div class="timeline-slot w-full"></div></div></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Booking Form -->
+<div class="col-span-12 lg:col-span-3 space-y-6">
+<div class="bg-white border border-outline-variant rounded-xl p-6 shadow-sm">
+<h3 class="font-headline-sm text-headline-sm mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">edit_calendar</span>
+                            Booking Form
+                        </h3>
+<form class="space-y-5" onsubmit="event.preventDefault(); alert('Booking submitted!');">
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-2">RESOURCE</label>
+<div class="relative">
+<select class="w-full border-outline-variant rounded bg-surface-container-low text-body-md py-2.5 focus:ring-primary focus:border-primary appearance-none">
+<option>Select a resource...</option>
+<option selected="">Room B2 (Available)</option>
+<option>AF-0062 Projector</option>
+<option>Room A1</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-2">START TIME</label>
+<input class="w-full border-outline-variant rounded bg-white text-body-md py-2 focus:ring-primary" type="time" value="14:00"/>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-2">END TIME</label>
+<input class="w-full border-outline-variant rounded bg-white text-body-md py-2 focus:ring-primary" type="time" value="15:30"/>
+</div>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-2">PURPOSE</label>
+<input class="w-full border-outline-variant rounded bg-white text-body-md py-2.5 focus:ring-primary" placeholder="e.g. Design Sprint" type="text"/>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-2">ADD ATTENDEES (INTERNAL ID)</label>
+<div class="flex gap-2">
+<input class="flex-1 border-outline-variant rounded bg-white text-body-md py-2 focus:ring-primary" placeholder="ID-0000" type="text"/>
+<button class="bg-surface-container-high p-2 rounded hover:bg-outline-variant transition-colors" type="button">
+<span class="material-symbols-outlined">person_add</span>
+</button>
+</div>
+</div>
+<div class="pt-4 space-y-3">
+<button class="w-full bg-primary text-on-primary py-3 rounded font-bold shadow-md hover:opacity-90 transition-all flex items-center justify-center gap-2" type="submit">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+                                    Confirm Reservation
+                                </button>
+<button class="w-full border border-outline-variant text-on-surface-variant py-2.5 rounded font-medium hover:bg-surface-container-low transition-colors" type="reset">
+                                    Clear Form
+                                </button>
+</div>
+</form>
+</div>
+<!-- Usage Stats / Small Widget -->
+<div class="bg-primary-container/10 border border-primary-container/20 rounded-xl p-5">
+<div class="flex items-center justify-between mb-4">
+<h4 class="font-bold text-primary">Booking Capacity</h4>
+<span class="material-symbols-outlined text-primary">analytics</span>
+</div>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-body-md mb-1">
+<span>Meeting Rooms</span>
+<span class="font-bold">64%</span>
+</div>
+<div class="w-full bg-outline-variant/30 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[64%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-body-md mb-1">
+<span>AV Equipment</span>
+<span class="font-bold">22%</span>
+</div>
+<div class="w-full bg-outline-variant/30 h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-[22%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Status Bar -->
+<div class="mt-8 pt-8 border-t border-outline-variant flex flex-wrap gap-6 text-label-sm text-on-surface-variant uppercase tracking-wider">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span>Reserved by You</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>Reserved by Others</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary-container"></span>
+<span>Recurring Series</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span>Out of Service</span>
+</div>
+<div class="ml-auto">
+                    System Time: 11:24:52 AM
+                </div>
+</div>
+</div>
+</main>
+<script>
+        // Micro-interaction for timeline scrolling or simple hover effects
+        document.querySelectorAll('.timeline-slot').forEach(slot => {
+            slot.addEventListener('click', function() {
+                // Focus the form and perhaps pre-fill the time based on the slot index
+                document.querySelector('input[type="time"]').focus();
+            });
+        });
+
+        // Simple sticky header effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 10) {
+                header.classList.add('shadow-sm');
+            } else {
+                header.classList.remove('shadow-sm');
+            }
+        });
+    </script>
+</body></html>
