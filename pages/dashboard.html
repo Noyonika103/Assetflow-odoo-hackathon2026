@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard | AssetFlow</title>
+
+<link
+href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css"
+rel="stylesheet">
+
+<link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/sidebar.css">
+<link rel="stylesheet" href="../css/navbar.css">
+<link rel="stylesheet" href="../css/dashboard.css">
+
+</head>
+
+<body>
+
+<!-- ================= Sidebar ================= -->
+
+<div id="sidebar-container"></div>
+
+<!-- ================= Navbar ================= -->
+
+<div id="navbar-container"></div>
+
+<!-- ================= Main ================= -->
+
+<main class="page">
+
+    <!-- Header -->
+
+    <section class="page-header">
+
+        <div>
+
+            <h1 class="page-title">
+
+                Dashboard
+
+            </h1>
+
+            <p class="page-subtitle">
+
+                Welcome back, John 👋
+
+            </p>
+
+        </div>
+
+        <button class="primary-btn ripple">
+
+            <i class="ri-add-line"></i>
+
+            Add Asset
+
+        </button>
+
+    </section>
+
+    <!-- ================= Cards ================= -->
+
+    <section class="grid grid-4">
+
+        <div class="card stat-card hover-lift">
+
+            <div>
+
+                <p>Total Assets</p>
+
+                <h2 id="assetCount">
+
+                    245
+
+                </h2>
+
+            </div>
+
+            <div class="card-icon">
+
+                <i class="ri-computer-line"></i>
+
+            </div>
+
+        </div>
+
+        <div class="card stat-card hover-lift">
+
+            <div>
+
+                <p>Employees</p>
+
+                <h2>
+
+                    58
+
+                </h2>
+
+            </div>
+
+            <div class="card-icon">
+
+                <i class="ri-group-line"></i>
+
+            </div>
+
+        </div>
+
+        <div class="card stat-card hover-lift">
+
+            <div>
+
+                <p>Departments</p>
+
+                <h2>
+
+                    8
+
+                </h2>
+
+            </div>
+
+            <div class="card-icon">
+
+                <i class="ri-building-line"></i>
+
+            </div>
+
+        </div>
+
+        <div class="card stat-card hover-lift">
+
+            <div>
+
+                <p>Maintenance</p>
+
+                <h2>
+
+                    14
+
+                </h2>
+
+            </div>
+
+            <div class="card-icon">
+
+                <i class="ri-tools-line"></i>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= Charts ================= -->
+
+    <section class="dashboard-row">
+
+        <div class="card chart-card">
+
+            <div class="card-header">
+
+                <h3>
+
+                    Asset Overview
+
+                </h3>
+
+            </div>
+
+            <canvas id="assetChart"></canvas>
+
+        </div>
+
+        <div class="card activity-card">
+
+            <div class="card-header">
+
+                <h3>
+
+                    Recent Activity
+
+                </h3>
+
+            </div>
+
+            <ul class="activity-list">
+
+                <li>
+
+                    Laptop #A100 assigned to Rahul
+
+                </li>
+
+                <li>
+
+                    Printer under maintenance
+
+                </li>
+
+                <li>
+
+                    Audit completed
+
+                </li>
+
+                <li>
+
+                    Conference Room booked
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </section>
+        <!-- ================= QUICK ACTIONS ================= -->
+
+    <section class="dashboard-row">
+
+        <div class="card quick-card">
+
+            <h3>Quick Actions</h3>
+
+            <div class="quick-grid">
+
+                <button class="quick-btn hover-lift">
+                    <i class="ri-add-circle-line"></i>
+                    <span>Add Asset</span>
+                </button>
+
+                <button class="quick-btn hover-lift">
+                    <i class="ri-share-forward-line"></i>
+                    <span>Transfer</span>
+                </button>
+
+                <button class="quick-btn hover-lift">
+                    <i class="ri-calendar-check-line"></i>
+                    <span>Book Resource</span>
+                </button>
+
+                <button class="quick-btn hover-lift">
+                    <i class="ri-tools-line"></i>
+                    <span>Maintenance</span>
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="card maintenance-card">
+
+            <div class="card-header">
+
+                <h3>Upcoming Maintenance</h3>
+
+            </div>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Asset</th>
+
+                        <th>Date</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>Dell Laptop</td>
+
+                        <td>12 Jul</td>
+
+                        <td>
+                            <span class="badge warning">
+                                Pending
+                            </span>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>HP Printer</td>
+
+                        <td>14 Jul</td>
+
+                        <td>
+
+                            <span class="badge success">
+
+                                Scheduled
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Projector</td>
+
+                        <td>18 Jul</td>
+
+                        <td>
+
+                            <span class="badge danger">
+
+                                Urgent
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+    <!-- ================= LOWER GRID ================= -->
+
+    <section class="grid grid-2">
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h3>Department Status</h3>
+
+            </div>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Department</th>
+
+                        <th>Assets</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>IT</td>
+
+                        <td>78</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>HR</td>
+
+                        <td>21</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Finance</td>
+
+                        <td>33</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Marketing</td>
+
+                        <td>19</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h3>Recent Notifications</h3>
+
+            </div>
+
+            <ul class="activity-list">
+
+                <li>
+
+                    ✔ New employee added
+
+                </li>
+
+                <li>
+
+                    ✔ Audit Report Generated
+
+                </li>
+
+                <li>
+
+                    ✔ Asset Returned
+
+                </li>
+
+                <li>
+
+                    ✔ Maintenance Approved
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </section>
+        <!-- ================= FOOTER ================= -->
+
+    <footer class="dashboard-footer">
+
+        <p>
+
+            © 2026 AssetFlow Enterprise Asset Management
+
+        </p>
+
+    </footer>
+
+</main>
+
+<!-- ================= CHART JS ================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- ================= COMPONENTS ================= -->
+
+<script>
+
+async function loadComponent(id,file){
+
+    const res=await fetch("../components/"+file);
+
+    document.getElementById(id).innerHTML=
+    await res.text();
+
+}
+
+loadComponent("sidebar-container","sidebar.html");
+
+loadComponent("navbar-container","navbar.html");
+
+</script>
+
+<!-- ================= DASHBOARD CHART ================= -->
+
+<script>
+
+const ctx=document.getElementById("assetChart");
+
+if(ctx){
+
+new Chart(ctx,{
+
+type:"bar",
+
+data:{
+
+labels:["IT","HR","Finance","Sales","Admin"],
+
+datasets:[{
+
+label:"Assets",
+
+data:[78,21,33,40,15],
+
+backgroundColor:[
+"#0B74B8",
+"#38BDF8",
+"#22C55E",
+"#F59E0B",
+"#EF4444"
+],
+
+borderRadius:10
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+
+legend:{
+
+display:false
+
+}
+
+},
+
+scales:{
+
+y:{
+
+beginAtZero:true
+
+}
+
+}
+
+}
+
+});
+
+}
+
+</script>
+
+<!-- ================= JS ================= -->
+
+<script src="../js/sidebar.js"></script>
+
+<script src="../js/navbar.js"></script>
+
+<script src="../js/dashboard.js"></script>
+
+</body>
+
+</html>

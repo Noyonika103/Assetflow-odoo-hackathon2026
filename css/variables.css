@@ -1,31 +1,55 @@
+/* =========================================================
+   AssetFlow Theme Variables
+   ========================================================= */
+
 :root{
 
---primary:#0B74B8;
+    /* Brand */
 
---primary-dark:#075D94;
+    --primary:#0B74B8;
+    --primary-dark:#085C92;
+    --primary-light:#D8EEFA;
 
---background:#EEF5FB;
+    /* Background */
 
---white:#ffffff;
+    --background:#F4F8FC;
+    --surface:#FFFFFF;
+    --surface-2:#F8FBFE;
 
---border:#E5E7EB;
+    /* Text */
 
---success:#16a34a;
+    --text:#1F2937;
+    --text-light:#6B7280;
 
---warning:#f59e0b;
+    /* Border */
 
---danger:#ef4444;
+    --border:#E5E7EB;
 
---radius:20px;
+    /* Status */
 
---transition:.35s ease;
+    --success:#22C55E;
+    --warning:#F59E0B;
+    --danger:#EF4444;
+    --info:#3B82F6;
 
---shadow:
+    /* Radius */
 
-0 8px 25px rgba(0,0,0,.08);
+    --radius-sm:10px;
+    --radius:18px;
+    --radius-lg:24px;
 
---hover:
+    /* Shadow */
 
-0 18px 45px rgba(11,116,184,.20);
+    --shadow:
+
+        0 10px 30px rgba(0,0,0,.08);
+
+    --shadow-hover:
+
+        0 20px 40px rgba(11,116,184,.18);
+
+    /* Animation */
+
+    --transition:.3s ease;
 
 }

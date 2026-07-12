@@ -1,217 +1,152 @@
-/*=========================================================
-    SIDEBAR CONTROLLER
-=========================================================*/
+/* ==========================================================
+   AssetFlow Sidebar
+   ========================================================== */
 
-const sidebar = document.getElementById("sidebar");
+document.addEventListener("DOMContentLoaded", () => {
 
-const menuLinks = document.querySelectorAll(".menu a");
+    const sidebar = document.getElementById("sidebar");
+    const collapseBtn = document.getElementById("collapseBtn");
+    const menuLinks = document.querySelectorAll(".menu a");
+    const logoutBtn = document.querySelector(".logout-btn");
 
-const collapseBtn = document.getElementById("collapseBtn");
+    /* ==========================================
+       Restore Sidebar State
+    ========================================== */
 
-const mobileBtn = document.getElementById("mobileMenu");
+    const savedState = localStorage.getItem("sidebarCollapsed");
 
-const STORAGE_KEY = "assetflow-sidebar";
-
-/*=========================================================
-    ACTIVE PAGE
-=========================================================*/
-
-const currentPage = window.location.pathname.split("/").pop();
-
-menuLinks.forEach(link => {
-
-    const href = link.getAttribute("href");
-
-    if (!href) return;
-
-    if (href.includes(currentPage)) {
-
-        link.classList.add("active");
-
-    }
-
-});
-
-/*=========================================================
-    COLLAPSE
-=========================================================*/
-
-function collapseSidebar(){
-
-    sidebar.classList.toggle("collapsed");
-
-    localStorage.setItem(
-
-        STORAGE_KEY,
-
-        sidebar.classList.contains("collapsed")
-
-    );
-
-}
-
-/*=========================================================
-    RESTORE
-=========================================================*/
-
-window.addEventListener("DOMContentLoaded",()=>{
-
-    const collapsed =
-
-        localStorage.getItem(STORAGE_KEY);
-
-    if(collapsed==="true"){
-
+    if (savedState === "true") {
         sidebar.classList.add("collapsed");
+    }
+
+    /* ==========================================
+       Collapse / Expand
+    ========================================== */
+
+    if (collapseBtn) {
+
+        collapseBtn.addEventListener("click", () => {
+
+            sidebar.classList.toggle("collapsed");
+
+            localStorage.setItem(
+                "sidebarCollapsed",
+                sidebar.classList.contains("collapsed")
+            );
+
+        });
 
     }
 
-});
+    /* ==========================================
+       Active Menu
+    ========================================== */
 
-/*=========================================================
-    BUTTON
-=========================================================*/
+    const currentPage = window.location.pathname
+        .split("/")
+        .pop();
 
-if(collapseBtn){
+    menuLinks.forEach(link => {
 
-collapseBtn.addEventListener(
+        const href = link.getAttribute("href");
 
-"click",
+        if (href === currentPage) {
 
-collapseSidebar
+            link.classList.add("active");
 
-);
+        } else {
 
-}
+            link.classList.remove("active");
 
-/*=========================================================
-    MOBILE
-=========================================================*/
+        }
 
-if(mobileBtn){
+    });
 
-mobileBtn.addEventListener(
+    /* ==========================================
+       Hover Animation
+    ========================================== */
 
-"click",
+    menuLinks.forEach(link => {
 
-()=>{
+        link.addEventListener("mouseenter", () => {
 
-sidebar.classList.toggle("show");
+            link.style.transition = ".3s ease";
 
-}
+        });
 
-);
+    });
 
-}
+    /* ==========================================
+       Logout
+    ========================================== */
 
-/*=========================================================
-    OUTSIDE CLICK
-=========================================================*/
+    if (logoutBtn) {
 
-document.addEventListener("click",(e)=>{
+        logoutBtn.addEventListener("click", () => {
 
-if(
+            const confirmLogout = confirm(
+                "Are you sure you want to logout?"
+            );
 
-window.innerWidth<=1100 &&
+            if (!confirmLogout) return;
 
-!sidebar.contains(e.target) &&
+            localStorage.removeItem("token");
 
-mobileBtn &&
+            window.location.href = "login.html";
 
-!mobileBtn.contains(e.target)
+        });
 
-){
+    }
 
-sidebar.classList.remove("show");
+    /* ==========================================
+       ESC closes mobile sidebar
+    ========================================== */
 
-}
+    document.addEventListener("keydown", (e) => {
 
-});
+        if (e.key === "Escape") {
 
-/*=========================================================
-    ESC KEY
-=========================================================*/
+            sidebar.classList.remove("show");
 
-document.addEventListener("keydown",(e)=>{
+        }
 
-if(e.key==="Escape"){
+    });
 
-sidebar.classList.remove("show");
+    /* ==========================================
+       Outside Click (Mobile)
+    ========================================== */
 
-}
+    document.addEventListener("click", (e) => {
 
-});
+        if (window.innerWidth > 1100) return;
 
-/*=========================================================
-    RIPPLE EFFECT
-=========================================================*/
+        const mobileBtn = document.getElementById("mobileMenu");
 
-menuLinks.forEach(link=>{
+        if (
+            sidebar &&
+            !sidebar.contains(e.target) &&
+            mobileBtn &&
+            !mobileBtn.contains(e.target)
+        ) {
 
-link.addEventListener("mouseenter",()=>{
+            sidebar.classList.remove("show");
 
-link.style.transition=".25s";
+        }
 
-});
+    });
 
-});
+    /* ==========================================
+       Resize
+    ========================================== */
 
-/*=========================================================
-    LOGOUT
-=========================================================*/
+    window.addEventListener("resize", () => {
 
-const logoutBtn=document.querySelector(".logout");
+        if (window.innerWidth > 1100) {
 
-if(logoutBtn){
+            sidebar.classList.remove("show");
 
-logoutBtn.addEventListener("click",()=>{
+        }
 
-const ok=confirm(
-
-"Do you want to logout?"
-
-);
-
-if(ok){
-
-localStorage.removeItem("token");
-
-window.location.href="login.html";
-
-}
+    });
 
 });
-
-}
-
-/*=========================================================
-    RESIZE
-=========================================================*/
-
-window.addEventListener("resize",()=>{
-
-if(window.innerWidth>1100){
-
-sidebar.classList.remove("show");
-
-}
-
-});
-
-/*=========================================================
-    PAGE TRANSITION
-=========================================================*/
-
-menuLinks.forEach(link=>{
-
-link.addEventListener("click",()=>{
-
-document.body.style.opacity=".7";
-
-});
-
-});
-
-/*=========================================================
-    END
-=========================================================*/
